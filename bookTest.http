@@ -1,0 +1,47 @@
+###
+ curl http://localhost:8080/book --include --header "Content-Type: application/json"\
+ --request "POST"\
+ --data '{"id": "","name": "Spring in Action","price": 99.66,"author": "Craig Walls"}'
+
+
+'{"id": "","name": "Spring in Action","price": 99.66,"author": "Craig Walls"}'
+POST http://localhost:8080/albums
+Content-Type: application/json
+
+{
+  "id": "4",
+  "title": "The Modern Sound of Betty Carter",
+  "artist": "Betty Carter",
+  "price": 49.99
+}
+
+###
+
+
+
+### add
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "id": "",
+  "name": "Spring in Action",
+  "price": 99.66,
+  "author": "Craig Walls"
+}
+
+### getList
+GET http://localhost:8080/books
+Content-Type: application/json
+
+### update
+PUT http://localhost:8080/books/5c86f426-243f-4233-a5fc-9878f7102e8b
+Content-Type: application/json
+
+{
+  "price": 200
+}
+
+### delete
+DELETE localhost:8080/books/8242bd69-84b2-4919-b5b3-0646b438c9cb
+Content-Type: application/json
