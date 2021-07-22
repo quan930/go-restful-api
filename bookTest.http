@@ -23,19 +23,14 @@ Content-Type: application/json
 POST http://localhost:8080/books
 Content-Type: application/json
 
-{
-  "id": "",
-  "name": "Spring in Action",
-  "price": 99.66,
-  "author": "Craig Walls"
-}
+{"name": "core JAVA", "price": 16.99, "author": "Gary Cornell"}
 
 ### getList
-GET http://localhost:8080/books
+GET http://localhost:8080/books/ff00ca2c-5ac9-4ecc-9d8a-a22c8f1b0be5
 Content-Type: application/json
 
 ### update
-PUT http://localhost:8080/books/5c86f426-243f-4233-a5fc-9878f7102e8b
+PUT http://localhost:8080/books/1
 Content-Type: application/json
 
 {
@@ -43,5 +38,5 @@ Content-Type: application/json
 }
 
 ### delete
-DELETE localhost:8080/books/8242bd69-84b2-4919-b5b3-0646b438c9cb
+DELETE localhost:8080/books/1
 Content-Type: application/json

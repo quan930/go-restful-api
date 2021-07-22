@@ -1,2 +1,3 @@
 ./bookapi
 ./bookTest.http
+*.http
