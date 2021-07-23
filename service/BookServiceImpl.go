@@ -25,11 +25,15 @@ func (receiver BookServiceImpl) GetBookById(id string) *entity.Book{
 	return bookDAO.SelectBookById(id)
 }
 
-func (receiver BookServiceImpl) AddBook(book entity.Book) *entity.Book {
+func (receiver BookServiceImpl) AddBook(book entity.BookAO) *entity.Book {
 	fmt.Print("增加")
-	book.ToString()
-	book.ID = uuid.Must(uuid.NewV4()).String()
-	return bookDAO.InsertBook(book)
+	bookNew := new(entity.Book)
+	bookNew.Name = book.Name
+	bookNew.Price = book.Price
+	bookNew.Author = book.Author
+	bookNew.ToString()
+	bookNew.ID = uuid.Must(uuid.NewV4()).String()
+	return bookDAO.InsertBook(*bookNew)
 }
 
 func (receiver BookServiceImpl) UpdateBook(id string,book entity.Book) *entity.Book {

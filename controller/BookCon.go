@@ -30,7 +30,7 @@ func GetBookByID(c *gin.Context) {
 
 func AddBook(c *gin.Context) {
 	//todo 参数校验
-	var book entity.Book
+	var book entity.BookAO
 
 	if err := c.BindJSON(&book); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "JSON异常"})
