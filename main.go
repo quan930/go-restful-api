@@ -2,11 +2,15 @@ package main
 
 import (
 	"bookapi/config"
-	"github.com/gin-gonic/gin"
+	"github.com/emicklei/go-restful"
+	"log"
+	"net/http"
 )
-
 func main() {
-	router := gin.Default()
-	config.RouteConfig(router)
-	router.Run("localhost:8080")
+	wsContainer := restful.NewContainer()
+	wsContainer.Router(restful.CurlyRouter{})
+	config.Register(wsContainer)
+	log.Printf("start listening on localhost:8080")
+	server := &http.Server{Addr: ":8080", Handler: wsContainer}
+	log.Fatal(server.ListenAndServe())
 }

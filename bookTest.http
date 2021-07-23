@@ -23,14 +23,14 @@ Content-Type: application/json
 POST http://localhost:8080/books
 Content-Type: application/json
 
-{"name": "core JAVA", "price": 16.99, "author": "Gary Cornell"}
+{"name": "core JAVA", "price": 1.00, "author": "Gary Cornell"}
 
 ### getList
-GET http://localhost:8080/books/ff00ca2c-5ac9-4ecc-9d8a-a22c8f1b0be5
+GET http://localhost:8080/books
 Content-Type: application/json
 
 ### update
-PUT http://localhost:8080/books/1
+PATCH http://localhost:8080/books/1a1cc8f4-29e9-487f-8c28-e7be8b6ab4e9
 Content-Type: application/json
 
 {
@@ -38,5 +38,5 @@ Content-Type: application/json
 }
 
 ### delete
-DELETE localhost:8080/books/1
+DELETE localhost:8080/books/1a1cc8f4-29e9-487f-8c28-e7be8b6ab4e9
 Content-Type: application/json

@@ -4,9 +4,13 @@ import (
 	"bookapi/entity"
 	"bookapi/service"
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"github.com/emicklei/go-restful"
 	"net/http"
 )
+
+type BookCon struct{
+
+}
 
 var bookService service.BookService
 func init() {
@@ -14,65 +18,62 @@ func init() {
 	bookService = new(service.BookServiceImpl)
 }
 
-func GetBooks(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK,*bookService.GetList())
+func (receiver BookCon) GetBooks(request *restful.Request, response *restful.Response) {
+	response.WriteEntity(bookService.GetList())
 }
 
-func GetBookByID(c *gin.Context) {
-	id := c.Param("id")
+func (receiver BookCon) GetBookByID(request *restful.Request, response *restful.Response) {
+	id := request.PathParameter("id")
 	book := bookService.GetBookById(id)
 	if book==nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "book not found"})
+		response.WriteErrorString(http.StatusNotFound,"book not found")
 	}else {
-		c.IndentedJSON(http.StatusOK, *book)
+		response.WriteEntity(book)
 	}
 }
 
-func AddBook(c *gin.Context) {
-	//todo 参数校验
-	var book entity.BookAO
-
-	if err := c.BindJSON(&book); err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "JSON异常"})
-		return
-	}
-
-	bookNew := bookService.AddBook(book)
-	if bookNew==nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "参数异常"})
-	}else {
-		c.IndentedJSON(http.StatusCreated, *bookNew)
+func (receiver BookCon) AddBook(request *restful.Request, response *restful.Response) {
+	bookAO := new(entity.BookAO)
+	err := request.ReadEntity(&bookAO)
+	if err == nil {
+		book := bookService.AddBook(*bookAO)
+		if book==nil {
+			response.WriteErrorString(http.StatusInternalServerError, "参数异常")
+		}else {
+			response.WriteHeaderAndEntity(http.StatusCreated, book)
+		}
+	} else {
+		response.WriteErrorString(http.StatusInternalServerError, "JSON异常")
 	}
 }
 
-func UpdateBook(c *gin.Context)  {
-	//todo 参数校验
-	id := c.Param("id")
+func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.Response)  {
+	id := request.PathParameter("id")
 	var book entity.Book
-	if err := c.BindJSON(&book); err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "JSON异常"})
-		return
-	}
-
-	bookNew := bookService.UpdateBook(id, book)
-	if bookNew==nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "参数异常"})
-	}else {
-		c.IndentedJSON(http.StatusCreated, *bookNew)
+	err := request.ReadEntity(&book)
+	if err == nil {
+		bookNew := bookService.UpdateBook(id,book)
+		if bookNew==nil {
+			response.WriteErrorString(http.StatusInternalServerError, "参数异常")
+		}else {
+			response.WriteHeaderAndEntity(http.StatusCreated, bookNew)
+		}
+	} else {
+		response.WriteErrorString(http.StatusInternalServerError, "JSON异常")
 	}
 }
 
-func DeleteBook(c *gin.Context)  {
-	id := c.Param("id")
+func (receiver BookCon) DeleteBook(request *restful.Request, response *restful.Response)  {
+	//todo 删除完善
+	id := request.PathParameter("id")
 	if len(id)==0{
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "参数异常"})
+		response.WriteErrorString(http.StatusInternalServerError, "参数异常")
 		return
 	}
-
 	book := bookService.DeleteBook(id)
 	if book==nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "book not found,can't delete"})
+		response.WriteErrorString(http.StatusInternalServerError, "book not found,can't delete")
 	}else {
-		c.IndentedJSON(http.StatusOK, *book)
+		response.WriteEntity(*book)
 	}
 }

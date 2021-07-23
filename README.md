@@ -1,3 +1,2 @@
-# go-restful-api
-### todo
-+ 修改动态sql
+# go-restful-api V2
++ go-restful
