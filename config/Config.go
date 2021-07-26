@@ -9,7 +9,7 @@ func Register(container *restful.Container) {
 	ws := new(restful.WebService)
 	bookCon := new(controller.BookCon)
 	ws.
-		Path("/books").
+		Path("/api/v1/books").
 		Consumes(restful.MIME_XML, restful.MIME_JSON).
 		Produces(restful.MIME_JSON, restful.MIME_XML) // you can specify this per route as well
 

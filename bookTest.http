@@ -20,17 +20,17 @@ Content-Type: application/json
 
 
 ### add
-POST http://localhost:8080/books
+POST http://localhost:8080/api/v1/books
 Content-Type: application/json
 
-{"name": "core JAVA", "price": 1.00, "author": "Gary Cornell"}
+{"name": "Spring in Action", "price": 1.00, "author": "Craig Walls"}
 
 ### getList
-GET http://localhost:8080/books
+GET http://localhost:8080/api/v1/books
 Content-Type: application/json
 
 ### update
-PATCH http://localhost:8080/books/1a1cc8f4-29e9-487f-8c28-e7be8b6ab4e9
+PATCH http://localhost:8080/api/v1/books/2
 Content-Type: application/json
 
 {
@@ -38,5 +38,5 @@ Content-Type: application/json
 }
 
 ### delete
-DELETE localhost:8080/books/1a1cc8f4-29e9-487f-8c28-e7be8b6ab4e9
+DELETE localhost:8080/api/v1/books/2
 Content-Type: application/json

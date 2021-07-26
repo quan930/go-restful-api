@@ -3,13 +3,14 @@ package entity
 import (
 	"encoding/json"
 	"fmt"
+	"gorm.io/gorm"
 )
 
 type Book struct {
-	ID     string  `json:"id"`
-	Name  string  `json:"name"`
-	Price  float64 `json:"price"`
-	Author string  `json:"author"`
+	gorm.Model
+	Name  string
+	Price  float64
+	Author string
 }
 
 func (receiver Book) ToString()  {
