@@ -8,11 +8,11 @@ import (
 	"net/http"
 )
 
-type BookCon struct{
-
+type BookCon struct {
 }
 
 var bookService service.BookService
+
 func init() {
 	fmt.Println("bookService init")
 	bookService = new(service.BookServiceImpl)
@@ -25,9 +25,9 @@ func (receiver BookCon) GetBooks(request *restful.Request, response *restful.Res
 func (receiver BookCon) GetBookByID(request *restful.Request, response *restful.Response) {
 	id := request.PathParameter("id")
 	book := bookService.GetBookById(id)
-	if book==nil {
-		response.WriteErrorString(http.StatusNotFound,"book not found")
-	}else {
+	if book == nil {
+		response.WriteErrorString(http.StatusNotFound, "book not found")
+	} else {
 		response.WriteEntity(book)
 	}
 }
@@ -37,9 +37,9 @@ func (receiver BookCon) AddBook(request *restful.Request, response *restful.Resp
 	err := request.ReadEntity(&bookAO)
 	if err == nil {
 		book := bookService.AddBook(*bookAO)
-		if book==nil {
+		if book == nil {
 			response.WriteErrorString(http.StatusInternalServerError, "参数异常")
-		}else {
+		} else {
 			response.WriteHeaderAndEntity(http.StatusCreated, book)
 		}
 	} else {
@@ -47,15 +47,15 @@ func (receiver BookCon) AddBook(request *restful.Request, response *restful.Resp
 	}
 }
 
-func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.Response)  {
+func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.Response) {
 	id := request.PathParameter("id")
 	var book entity.Book
 	err := request.ReadEntity(&book)
 	if err == nil {
-		bookNew := bookService.UpdateBook(id,book)
-		if bookNew==nil {
+		bookNew := bookService.UpdateBook(id, book)
+		if bookNew == nil {
 			response.WriteErrorString(http.StatusInternalServerError, "参数异常")
-		}else {
+		} else {
 			response.WriteHeaderAndEntity(http.StatusCreated, bookNew)
 		}
 	} else {
@@ -63,17 +63,17 @@ func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.R
 	}
 }
 
-func (receiver BookCon) DeleteBook(request *restful.Request, response *restful.Response)  {
+func (receiver BookCon) DeleteBook(request *restful.Request, response *restful.Response) {
 	//todo 删除完善
 	id := request.PathParameter("id")
-	if len(id)==0{
+	if len(id) == 0 {
 		response.WriteErrorString(http.StatusInternalServerError, "参数异常")
 		return
 	}
 	book := bookService.DeleteBook(id)
-	if book==nil {
+	if book == nil {
 		response.WriteErrorString(http.StatusInternalServerError, "book not found,can't delete")
-	}else {
+	} else {
 		response.WriteEntity(*book)
 	}
 }

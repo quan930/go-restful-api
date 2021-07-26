@@ -8,7 +8,6 @@ import (
 )
 
 type BookServiceImpl struct {
-
 }
 
 var bookDAO dao.BookDAO
@@ -21,9 +20,9 @@ func (receiver BookServiceImpl) GetList() *[]entity.Book {
 	return bookDAO.SelectBooksAll()
 }
 
-func (receiver BookServiceImpl) GetBookById(id string) *entity.Book{
-	idUit,err := strconv.ParseUint(id,10,64)
-	if err!=nil {
+func (receiver BookServiceImpl) GetBookById(id string) *entity.Book {
+	idUit, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
 		fmt.Println(err)
 	}
 	return bookDAO.SelectBookById(uint(idUit))
@@ -39,20 +38,20 @@ func (receiver BookServiceImpl) AddBook(book entity.BookAO) *entity.Book {
 	return bookDAO.InsertBook(*bookNew)
 }
 
-func (receiver BookServiceImpl) UpdateBook(id string,book entity.Book) *entity.Book {
-	fmt.Print("更新:"+id+"\t")
+func (receiver BookServiceImpl) UpdateBook(id string, book entity.Book) *entity.Book {
+	fmt.Print("更新:" + id + "\t")
 	book.ToString()
-	idUit,err := strconv.ParseUint(id,10,64)
-	if err!=nil {
+	idUit, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
 		fmt.Println(err)
 	}
-	return bookDAO.UpdateBookById(uint(idUit),book)
+	return bookDAO.UpdateBookById(uint(idUit), book)
 }
 
 func (receiver BookServiceImpl) DeleteBook(id string) *int64 {
-	fmt.Println("删除:"+string(id))
-	idUit,err := strconv.ParseUint(id,10,64)
-	if err!=nil {
+	fmt.Println("删除:" + string(id))
+	idUit, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
 		fmt.Println(err)
 	}
 	return bookDAO.DeleteBookById(uint(idUit))

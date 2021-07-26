@@ -8,12 +8,12 @@ import (
 
 type Book struct {
 	gorm.Model
-	Name  string
+	Name   string
 	Price  float64
 	Author string
 }
 
-func (receiver Book) ToString()  {
+func (receiver Book) ToString() {
 	e, err := json.Marshal(receiver)
 	if err != nil {
 		fmt.Println(err)

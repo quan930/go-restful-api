@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 )
+
 func main() {
 	wsContainer := restful.NewContainer()
 	wsContainer.Router(restful.CurlyRouter{})

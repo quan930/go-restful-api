@@ -8,7 +8,6 @@ import (
 )
 
 type BookDAOImpl struct {
-
 }
 
 var db *gorm.DB
@@ -39,34 +38,34 @@ func (receiver BookDAOImpl) SelectBookById(id uint) *entity.Book {
 	result := db.First(&book, id)
 	if result.Error != nil {
 		return nil
-	}else if result.RowsAffected!=0 {
+	} else if result.RowsAffected != 0 {
 		return nil
-	}else {
+	} else {
 		return book
 	}
 }
 func (receiver BookDAOImpl) InsertBook(book entity.Book) *entity.Book {
 	result := db.Create(&book)
-	if result.RowsAffected<1 {
+	if result.RowsAffected < 1 {
 		return nil
 	}
 	db.First(&book, book.ID)
 	return &book
 }
-func (receiver BookDAOImpl) UpdateBookById(id uint,book entity.Book) *entity.Book {
+func (receiver BookDAOImpl) UpdateBookById(id uint, book entity.Book) *entity.Book {
 	book.ID = id
 	bookMap := make(map[string]interface{})
-	if len(book.Name)!= 0 {
+	if len(book.Name) != 0 {
 		bookMap["Name"] = book.Name
 	}
-	if len(book.Author)!= 0 {
+	if len(book.Author) != 0 {
 		bookMap["Author"] = book.Author
 	}
-	if book.Price!=0 {
+	if book.Price != 0 {
 		bookMap["Price"] = book.Price
 	}
 	result := db.Model(&book).Updates(bookMap)
-	if result.RowsAffected<1 {
+	if result.RowsAffected < 1 {
 		return nil
 	}
 	db.First(&book, book.ID)
@@ -74,7 +73,7 @@ func (receiver BookDAOImpl) UpdateBookById(id uint,book entity.Book) *entity.Boo
 }
 func (receiver BookDAOImpl) DeleteBookById(id uint) *int64 {
 	result := db.Delete(&entity.Book{}, id)
-	if result.RowsAffected<1 {
+	if result.RowsAffected < 1 {
 		return nil
 	}
 	return &result.RowsAffected
