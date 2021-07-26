@@ -8,7 +8,6 @@ import (
 )
 
 type BookServiceImpl struct {
-
 }
 
 var bookDAO dao.BookDAO
@@ -21,7 +20,7 @@ func (receiver BookServiceImpl) GetList() *[]entity.Book {
 	return bookDAO.SelectBooksAll()
 }
 
-func (receiver BookServiceImpl) GetBookById(id string) *entity.Book{
+func (receiver BookServiceImpl) GetBookById(id string) *entity.Book {
 	return bookDAO.SelectBookById(id)
 }
 
@@ -36,13 +35,13 @@ func (receiver BookServiceImpl) AddBook(book entity.BookAO) *entity.Book {
 	return bookDAO.InsertBook(*bookNew)
 }
 
-func (receiver BookServiceImpl) UpdateBook(id string,book entity.Book) *entity.Book {
-	fmt.Print("更新:"+id+"\t")
+func (receiver BookServiceImpl) UpdateBook(id string, book entity.Book) *entity.Book {
+	fmt.Print("更新:" + id + "\t")
 	book.ToString()
-	return bookDAO.UpdateBookById(id,book)
+	return bookDAO.UpdateBookById(id, book)
 }
 
 func (receiver BookServiceImpl) DeleteBook(id string) *int64 {
-	fmt.Println("删除:"+string(id))
+	fmt.Println("删除:" + string(id))
 	return bookDAO.DeleteBookById(id)
 }
