@@ -1,3 +1,7 @@
 # go-restful-api
-### todo
-+ 修改动态sql
++ web
+
+    `gin`
++ DB
+    
+    `database/sql`
