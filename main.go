@@ -1,3 +1,26 @@
+// testProject API.
+//
+// 这里是一些简单的描述
+//
+// Terms Of Service:
+//
+// 描述使用接口服务的一些协议
+//
+//     Schemes: http, https
+//     Host: localhost
+//     BasePath: /v1
+//     Version: 0.0.1
+//     Contact: lilq<lilq@test.com>
+//
+//     Consumes:
+//     - application/json
+//     - application/xml
+//
+//     Produces:
+//     - application/json
+//     - application/xml
+//
+// swagger:meta
 package main
 
 import (

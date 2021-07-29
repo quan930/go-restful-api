@@ -1,0 +1,227 @@
+{
+  "consumes": [
+    "application/json",
+    "application/xml"
+  ],
+  "produces": [
+    "application/json",
+    "application/xml"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "这里是一些简单的描述",
+    "title": "testProject API.",
+    "termsOfService": "描述使用接口服务的一些协议",
+    "contact": {
+      "name": "lilq",
+      "email": "lilq@test.com"
+    },
+    "version": "0.0.1"
+  },
+  "host": "localhost",
+  "basePath": "/v1",
+  "paths": {
+    "/books": {
+      "get": {
+        "description": "获取全部书籍(描述)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "books"
+        ],
+        "summary": "获取全部书籍",
+        "operationId": "getbooks"
+      },
+      "post": {
+        "description": "增加书籍(name,price,author)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "books"
+        ],
+        "summary": "增加书籍",
+        "operationId": "addBook",
+        "parameters": [
+          {
+            "name": "BookAO",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/BookAO"
+            }
+          }
+        ]
+      }
+    },
+    "/books/{Id}": {
+      "get": {
+        "description": "根据id获取指定书籍",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "books"
+        ],
+        "summary": "获取指定书籍",
+        "operationId": "getBookById",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "需要查询/修改的id",
+            "name": "Id",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "description": "根据id删除指定书籍",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "books"
+        ],
+        "summary": "删除指定书籍",
+        "operationId": "deleteBookById",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "需要查询/修改的id",
+            "name": "Id",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "patch": {
+        "description": "增加书籍(name,price,author)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "books"
+        ],
+        "summary": "修改书籍",
+        "operationId": "updateBook",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "需要查询/修改的id",
+            "name": "Id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "BookUO",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/BookUO"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "BookAO": {
+      "type": "object",
+      "required": [
+        "name",
+        "price",
+        "author"
+      ],
+      "properties": {
+        "author": {
+          "description": "书籍作者",
+          "type": "string",
+          "maxLength": 12,
+          "minLength": 6,
+          "x-go-name": "Author",
+          "example": "Craig Walls"
+        },
+        "name": {
+          "description": "书籍名称",
+          "type": "string",
+          "maxLength": 20,
+          "x-go-name": "Name",
+          "example": "Spring in Action"
+        },
+        "price": {
+          "description": "书籍价格",
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Price",
+          "example": 88.88
+        }
+      },
+      "x-go-package": "bookapi/entity"
+    },
+    "BookUO": {
+      "type": "object",
+      "properties": {
+        "author": {
+          "description": "书籍作者",
+          "type": "string",
+          "maxLength": 12,
+          "minLength": 6,
+          "x-go-name": "Author",
+          "example": "Craig Walls"
+        },
+        "name": {
+          "description": "书籍名称",
+          "type": "string",
+          "maxLength": 20,
+          "x-go-name": "Name",
+          "example": "Spring in Action"
+        },
+        "price": {
+          "description": "书籍价格",
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Price",
+          "example": 88.88
+        }
+      },
+      "x-go-package": "bookapi/entity"
+    }
+  }
+}

@@ -18,11 +18,33 @@ func init() {
 	bookService = new(service.BookServiceImpl)
 }
 
+// swagger:route GET /books books getbooks
+//
+// 获取全部书籍
+//
+// 获取全部书籍(描述)
+//     Consumes:
+//     - application/json
+//     Produces:
+//     - application/json
+//     Schemes: http
 func (receiver BookCon) GetBooks(request *restful.Request, response *restful.Response) {
 	response.WriteEntity(bookService.GetList())
 }
 
+// swagger:route GET /books/{Id} books getBookById
+//
+// 获取指定书籍
+//
+// 根据id获取指定书籍
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http
+//
 func (receiver BookCon) GetBookByID(request *restful.Request, response *restful.Response) {
+
 	id := request.PathParameter("id")
 	book := bookService.GetBookById(id)
 	if book == nil {
@@ -32,6 +54,17 @@ func (receiver BookCon) GetBookByID(request *restful.Request, response *restful.
 	}
 }
 
+// swagger:route POST /books books addBook
+//
+// 增加书籍
+//
+// 增加书籍(name,price,author)
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http
+//
 func (receiver BookCon) AddBook(request *restful.Request, response *restful.Response) {
 	bookAO := new(entity.BookAO)
 	err := request.ReadEntity(&bookAO)
@@ -47,6 +80,17 @@ func (receiver BookCon) AddBook(request *restful.Request, response *restful.Resp
 	}
 }
 
+// swagger:route PATCH /books/{Id} books updateBook
+//
+// 修改书籍
+//
+// 增加书籍(name,price,author)
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http
+//
 func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.Response) {
 	id := request.PathParameter("id")
 	var book entity.Book
@@ -63,6 +107,18 @@ func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.R
 	}
 }
 
+
+// swagger:route DELETE /books/{Id} books deleteBookById
+//
+// 删除指定书籍
+//
+// 根据id删除指定书籍
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http
+//
 func (receiver BookCon) DeleteBook(request *restful.Request, response *restful.Response) {
 	//todo 删除完善
 	id := request.PathParameter("id")
