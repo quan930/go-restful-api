@@ -1,6 +1,7 @@
 # go-restful-api V2
 + go-restful
 + gorm
++ go-swagger
 ### todo 
 参数校验
 swagger

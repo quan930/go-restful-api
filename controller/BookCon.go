@@ -5,7 +5,6 @@ import (
 	"bookapi/service"
 	"fmt"
 	"github.com/emicklei/go-restful"
-	"net/http"
 )
 
 type BookCon struct {
@@ -28,8 +27,22 @@ func init() {
 //     Produces:
 //     - application/json
 //     Schemes: http
+// Responses:
+//  200: response
 func (receiver BookCon) GetBooks(request *restful.Request, response *restful.Response) {
-	response.WriteEntity(bookService.GetList())
+	books := bookService.GetList()
+	responseBody := new(entity.Response)
+	if books==nil {
+		responseBody.Body.Code = 400
+		responseBody.Body.Msg = "业务异常"
+		responseBody.Body.Data = nil
+		response.WriteEntity(responseBody.Body)
+	}else {
+		responseBody.Body.Code = 200
+		responseBody.Body.Msg = "successful"
+		responseBody.Body.Data = books
+		response.WriteEntity(responseBody.Body)
+	}
 }
 
 // swagger:route GET /books/{Id} books getBookById
@@ -42,15 +55,23 @@ func (receiver BookCon) GetBooks(request *restful.Request, response *restful.Res
 // Produces:
 // - application/json
 // Schemes: http
+// Responses:
+//  200: response
 //
 func (receiver BookCon) GetBookByID(request *restful.Request, response *restful.Response) {
-
 	id := request.PathParameter("id")
 	book := bookService.GetBookById(id)
+	responseBody := new(entity.Response)
 	if book == nil {
-		response.WriteErrorString(http.StatusNotFound, "book not found")
+		responseBody.Body.Code = 404
+		responseBody.Body.Msg = "not found"
+		responseBody.Body.Data = nil
+		response.WriteEntity(responseBody.Body)
 	} else {
-		response.WriteEntity(book)
+		responseBody.Body.Code = 200
+		responseBody.Body.Msg = "successful"
+		responseBody.Body.Data = book
+		response.WriteEntity(responseBody.Body)
 	}
 }
 
@@ -64,19 +85,31 @@ func (receiver BookCon) GetBookByID(request *restful.Request, response *restful.
 // Produces:
 // - application/json
 // Schemes: http
+// Responses:
+//  200: response
 //
 func (receiver BookCon) AddBook(request *restful.Request, response *restful.Response) {
 	bookAO := new(entity.BookAO)
 	err := request.ReadEntity(&bookAO)
+	responseBody := new(entity.Response)
 	if err == nil {
 		book := bookService.AddBook(*bookAO)
 		if book == nil {
-			response.WriteErrorString(http.StatusInternalServerError, "参数异常")
+			responseBody.Body.Code = 404
+			responseBody.Body.Msg = "参数异常"
+			responseBody.Body.Data = nil
+			response.WriteEntity(responseBody.Body)
 		} else {
-			response.WriteHeaderAndEntity(http.StatusCreated, book)
+			responseBody.Body.Code = 201
+			responseBody.Body.Msg = "successful"
+			responseBody.Body.Data = book
+			response.WriteEntity(responseBody.Body)
 		}
 	} else {
-		response.WriteErrorString(http.StatusInternalServerError, "JSON异常")
+		responseBody.Body.Code = 500
+		responseBody.Body.Msg = "JSON异常"
+		responseBody.Body.Data = nil
+		response.WriteEntity(responseBody.Body)
 	}
 }
 
@@ -90,20 +123,32 @@ func (receiver BookCon) AddBook(request *restful.Request, response *restful.Resp
 // Produces:
 // - application/json
 // Schemes: http
+// Responses:
+//  200: response
 //
 func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.Response) {
 	id := request.PathParameter("id")
 	var book entity.Book
 	err := request.ReadEntity(&book)
+	responseBody := new(entity.Response)
 	if err == nil {
 		bookNew := bookService.UpdateBook(id, book)
 		if bookNew == nil {
-			response.WriteErrorString(http.StatusInternalServerError, "参数异常")
+			responseBody.Body.Code = 404
+			responseBody.Body.Msg = "参数异常"
+			responseBody.Body.Data = nil
+			response.WriteEntity(responseBody.Body)
 		} else {
-			response.WriteHeaderAndEntity(http.StatusCreated, bookNew)
+			responseBody.Body.Code = 201
+			responseBody.Body.Msg = "successful"
+			responseBody.Body.Data = bookNew
+			response.WriteEntity(responseBody.Body)
 		}
 	} else {
-		response.WriteErrorString(http.StatusInternalServerError, "JSON异常")
+		responseBody.Body.Code = 500
+		responseBody.Body.Msg = "JSON异常"
+		responseBody.Body.Data = nil
+		response.WriteEntity(responseBody.Body)
 	}
 }
 
@@ -118,18 +163,30 @@ func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.R
 // Produces:
 // - application/json
 // Schemes: http
+// Responses:
+//  200: response
 //
 func (receiver BookCon) DeleteBook(request *restful.Request, response *restful.Response) {
 	//todo 删除完善
 	id := request.PathParameter("id")
+	responseBody := new(entity.Response)
 	if len(id) == 0 {
-		response.WriteErrorString(http.StatusInternalServerError, "参数异常")
+		responseBody.Body.Code = 500
+		responseBody.Body.Msg = "参数异常"
+		responseBody.Body.Data = nil
+		response.WriteEntity(responseBody.Body)
 		return
 	}
 	book := bookService.DeleteBook(id)
 	if book == nil {
-		response.WriteErrorString(http.StatusInternalServerError, "book not found,can't delete")
+		responseBody.Body.Code = 500
+		responseBody.Body.Msg = "book not found,can't delete"
+		responseBody.Body.Data = nil
+		response.WriteEntity(responseBody.Body)
 	} else {
-		response.WriteEntity(*book)
+		responseBody.Body.Code = 200
+		responseBody.Body.Msg = "successful"
+		responseBody.Body.Data = book
+		response.WriteEntity(responseBody.Body)
 	}
 }

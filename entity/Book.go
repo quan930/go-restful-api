@@ -8,9 +8,9 @@ import (
 
 type Book struct {
 	gorm.Model
-	Name   string
-	Price  float64
-	Author string
+	Name   string `json:"name"`
+	Price  float64 `json:"price"`
+	Author string `json:"author"`
 }
 
 func (receiver Book) ToString() {

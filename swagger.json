@@ -41,7 +41,12 @@
           "books"
         ],
         "summary": "获取全部书籍",
-        "operationId": "getbooks"
+        "operationId": "getbooks",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/response"
+          }
+        }
       },
       "post": {
         "description": "增加书籍(name,price,author)",
@@ -67,7 +72,12 @@
               "$ref": "#/definitions/BookAO"
             }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/response"
+          }
+        }
       }
     },
     "/books/{Id}": {
@@ -96,7 +106,12 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/response"
+          }
+        }
       },
       "delete": {
         "description": "根据id删除指定书籍",
@@ -123,7 +138,12 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/response"
+          }
+        }
       },
       "patch": {
         "description": "增加书籍(name,price,author)",
@@ -157,7 +177,12 @@
               "$ref": "#/definitions/BookUO"
             }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/response"
+          }
+        }
       }
     }
   },
@@ -222,6 +247,33 @@
         }
       },
       "x-go-package": "bookapi/entity"
+    }
+  },
+  "responses": {
+    "response": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "required": [
+          "code",
+          "msg"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "x-go-name": "Code"
+          },
+          "data": {
+            "description": "An optional field name to which this validation applies",
+            "type": "object",
+            "x-go-name": "Data"
+          },
+          "msg": {
+            "type": "string",
+            "x-go-name": "Msg"
+          }
+        }
+      }
     }
   }
 }
