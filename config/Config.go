@@ -15,6 +15,8 @@ func Register(container *restful.Container) {
 		CookiesAllowed: false,
 		Container: container}
 	container.Filter(cors.Filter)
+	// Add container filter to respond to OPTIONS
+	container.Filter(container.OPTIONSFilter)
 	ws.
 		Path("/api/v1/books").
 		Consumes(restful.MIME_XML, restful.MIME_JSON).

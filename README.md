@@ -11,6 +11,7 @@
     ```
   [link](https://github.com/go-swagger/go-swagger)
 + CORS-跨域
++ OPTIONS
 + go-playground/validator-参数校验
 
   [link](https://github.com/go-playground/validator)
