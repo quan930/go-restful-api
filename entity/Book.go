@@ -2,7 +2,6 @@ package entity
 
 import (
 	"encoding/json"
-	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -13,11 +12,7 @@ type Book struct {
 	Author string `json:"author"`
 }
 
-func (receiver Book) ToString() {
-	e, err := json.Marshal(receiver)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(e))
+func (receiver Book) ToString() string{
+	e, _ := json.Marshal(receiver)
+	return string(e)
 }

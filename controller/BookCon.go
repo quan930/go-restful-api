@@ -4,7 +4,6 @@ import (
 	"bookapi/entity"
 	"bookapi/service"
 	"bookapi/util"
-	"fmt"
 	"github.com/emicklei/go-restful"
 	"github.com/go-playground/validator/v10"
 	"log"
@@ -18,7 +17,7 @@ var bookService service.BookService
 var validate *validator.Validate
 
 func init() {
-	fmt.Println("bookService init")
+	log.Println("bookService init")
 	bookService = new(service.BookServiceImpl)
 	validate = validator.New()
 }

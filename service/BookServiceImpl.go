@@ -29,34 +29,30 @@ func (receiver BookServiceImpl) GetBookById(id string) *entity.Book {
 }
 
 func (receiver BookServiceImpl) AddBook(book entity.BookAO) *entity.Book {
-	log.Print("增加")
+	log.Print("book增加----book:")
+	log.Print(book)
 	bookNew := new(entity.Book)
 	bookNew.Name = book.Name
 	bookNew.Price = book.Price
 	bookNew.Author = book.Author
-	bookNew.ToString()
+	log.Println("\tbookNew:" + bookNew.ToString())
 	return bookDAO.InsertBook(*bookNew)
 }
 
 func (receiver BookServiceImpl) UpdateBook(id string, book entity.BookUO) *entity.Book {
-	log.Print("更新:" + id + "\t")
+	log.Print("book更新---id:" + id + "\tbook:")
+	log.Print(book)
 	bookNew := new(entity.Book)
 	bookNew.Name = book.Name
 	bookNew.Price = book.Price
 	bookNew.Author = book.Author
-	bookNew.ToString()
-	idUit, err := strconv.ParseUint(id, 10, 64)
-	if err != nil {
-		log.Println(err)
-	}
+	log.Println("\tbookNew:"+bookNew.ToString())
+	idUit, _ := strconv.ParseUint(id, 10, 64)
 	return bookDAO.UpdateBookById(uint(idUit), *bookNew)
 }
 
 func (receiver BookServiceImpl) DeleteBook(id string) *int64 {
-	log.Println("删除:" + string(id))
-	idUit, err := strconv.ParseUint(id, 10, 64)
-	if err != nil {
-		log.Println(err)
-	}
+	log.Println("book删除---id:" + string(id))
+	idUit, _ := strconv.ParseUint(id, 10, 64)
 	return bookDAO.DeleteBookById(uint(idUit))
 }
