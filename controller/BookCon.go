@@ -37,17 +37,10 @@ func init() {
 //  200: response
 func (receiver BookCon) GetBooks(request *restful.Request, response *restful.Response) {
 	books := bookService.GetList()
-	responseBody := new(entity.Response)
 	if books==nil {
-		responseBody.Body.Code = 400
-		responseBody.Body.Msg = "业务异常"
-		responseBody.Body.Data = nil
-		response.WriteEntity(responseBody.Body)
+		response.WriteEntity(entity.NewResponse(500,"业务异常",nil).Body)
 	}else {
-		responseBody.Body.Code = 200
-		responseBody.Body.Msg = "successful"
-		responseBody.Body.Data = books
-		response.WriteEntity(responseBody.Body)
+		response.WriteEntity(entity.NewResponse(200,"successful",books).Body)
 	}
 }
 
@@ -67,17 +60,10 @@ func (receiver BookCon) GetBooks(request *restful.Request, response *restful.Res
 func (receiver BookCon) GetBookByID(request *restful.Request, response *restful.Response) {
 	id := request.PathParameter("id")
 	book := bookService.GetBookById(id)
-	responseBody := new(entity.Response)
 	if book == nil {
-		responseBody.Body.Code = 404
-		responseBody.Body.Msg = "not found"
-		responseBody.Body.Data = nil
-		response.WriteEntity(responseBody.Body)
+		response.WriteEntity(entity.NewResponse(404,"找不到资源",nil).Body)
 	} else {
-		responseBody.Body.Code = 200
-		responseBody.Body.Msg = "successful"
-		responseBody.Body.Data = book
-		response.WriteEntity(responseBody.Body)
+		response.WriteEntity(entity.NewResponse(200,"successful",book).Body)
 	}
 }
 
@@ -97,33 +83,24 @@ func (receiver BookCon) GetBookByID(request *restful.Request, response *restful.
 func (receiver BookCon) AddBook(request *restful.Request, response *restful.Response) {
 	bookAO := new(entity.BookAO)
 	err := request.ReadEntity(&bookAO)
-	responseBody := new(entity.Response)
+	//responseBody := new(entity.Response)
 	if err == nil {
 		// 参数校验
 		err := validate.Struct(bookAO)
 		if err != nil {
-			responseBody.Body.Code = 500
-			responseBody.Body.Msg = "参数异常:"+util.ValidateErrorFormat(err)
-			response.WriteEntity(responseBody.Body)
+			response.WriteEntity(entity.NewResponse(500,"参数异常:"+util.ValidateErrorFormat(err),nil).Body)
 			return
 		}
 		book := bookService.AddBook(*bookAO)
 		if book == nil {
-			responseBody.Body.Code = 404
-			responseBody.Body.Msg = "参数异常"
-			responseBody.Body.Data = nil
-			response.WriteEntity(responseBody.Body)
+			response.WriteEntity(entity.NewResponse(500,"业务异常",nil).Body)
+			return
 		} else {
-			responseBody.Body.Code = 201
-			responseBody.Body.Msg = "successful"
-			responseBody.Body.Data = book
-			response.WriteEntity(responseBody.Body)
+			response.WriteEntity(entity.NewResponse(201,"successful",book).Body)
+			return
 		}
 	} else {
-		responseBody.Body.Code = 500
-		responseBody.Body.Msg = "JSON异常"
-		responseBody.Body.Data = nil
-		response.WriteEntity(responseBody.Body)
+		response.WriteEntity(entity.NewResponse(500,"JSON异常",nil).Body)
 	}
 }
 
@@ -145,33 +122,21 @@ func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.R
 	var book entity.BookUO
 	err := request.ReadEntity(&book)
 	log.Println(book)
-	responseBody := new(entity.Response)
 	if err == nil {
 		// 参数校验
 		err := validate.Struct(book)
 		if err != nil {
-			responseBody.Body.Code = 404
-			responseBody.Body.Msg = "参数异常:"+util.ValidateErrorFormat(err)
-			response.WriteEntity(responseBody.Body)
+			response.WriteEntity(entity.NewResponse(500,"参数异常:"+util.ValidateErrorFormat(err),nil).Body)
 			return
 		}
 		bookNew := bookService.UpdateBook(id, book)
 		if bookNew == nil {
-			responseBody.Body.Code = 404
-			responseBody.Body.Msg = "参数异常"
-			responseBody.Body.Data = nil
-			response.WriteEntity(responseBody.Body)
+			response.WriteEntity(entity.NewResponse(500,"业务异常",nil).Body)
 		} else {
-			responseBody.Body.Code = 201
-			responseBody.Body.Msg = "successful"
-			responseBody.Body.Data = bookNew
-			response.WriteEntity(responseBody.Body)
+			response.WriteEntity(entity.NewResponse(201,"successful",bookNew).Body)
 		}
 	} else {
-		responseBody.Body.Code = 500
-		responseBody.Body.Msg = "JSON异常"
-		responseBody.Body.Data = nil
-		response.WriteEntity(responseBody.Body)
+		response.WriteEntity(entity.NewResponse(500,"JSON异常",nil).Body)
 	}
 }
 
@@ -192,24 +157,15 @@ func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.R
 func (receiver BookCon) DeleteBook(request *restful.Request, response *restful.Response) {
 	//todo 删除完善
 	id := request.PathParameter("id")
-	responseBody := new(entity.Response)
 	if len(id) == 0 {
-		responseBody.Body.Code = 500
-		responseBody.Body.Msg = "参数异常"
-		responseBody.Body.Data = nil
-		response.WriteEntity(responseBody.Body)
+		response.WriteEntity(entity.NewResponse(500,"id不为空",nil).Body)
 		return
 	}
 	book := bookService.DeleteBook(id)
 	if book == nil {
-		responseBody.Body.Code = 500
-		responseBody.Body.Msg = "book not found,can't delete"
-		responseBody.Body.Data = nil
-		response.WriteEntity(responseBody.Body)
+		response.WriteEntity(entity.NewResponse(500,"book 不存在，不能删除",nil).Body)
 	} else {
-		responseBody.Body.Code = 200
-		responseBody.Body.Msg = "successful"
-		responseBody.Body.Data = book
-		response.WriteEntity(responseBody.Body)
+		response.WriteEntity(entity.NewResponse(201,"successful",book).Body)
 	}
 }
+
