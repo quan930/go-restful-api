@@ -8,6 +8,13 @@ import (
 func Register(container *restful.Container) {
 	ws := new(restful.WebService)
 	bookCon := new(controller.BookCon)
+	cors := restful.CrossOriginResourceSharing{
+		ExposeHeaders:  []string{"X-My-Header"},
+		AllowedHeaders: []string{"Content-Type", "Accept"},
+		AllowedMethods: []string{"GET", "POST", "DELETE", "PATCH"},
+		CookiesAllowed: false,
+		Container: container}
+	container.Filter(cors.Filter)
 	ws.
 		Path("/api/v1/books").
 		Consumes(restful.MIME_XML, restful.MIME_JSON).
