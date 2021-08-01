@@ -21,19 +21,19 @@ type BookAO struct {
 	// Required: true
 	// Maximum length: 20
 	// example: Spring in Action
-	Name   string  `json:"name" binding:"required,max=20"`
+	Name   string  `json:"name" validate:"required,max=20"`
 	// 书籍价格
 	//
 	// Required: true
 	// example: 88.88
-	Price  float64 `json:"price" binding:"required,number"`
+	Price  float64 `json:"price" validate:"required,number"`
 	// 书籍作者
 	//
 	// Required: true
 	// Maximum length: 12
 	// Minimum length: 6
 	// example: Craig Walls
-	Author string  `json:"author" binding:"required,min=6,max=12"`
+	Author string  `json:"author" validate:"required,max=12"`
 }
 
 
@@ -60,15 +60,15 @@ type BookUO struct {
 	//
 	// Maximum length: 20
 	// example: Spring in Action
-	Name   string  `json:"name" binding:"max=20"`
+	Name   string  `json:"name" validate:"max=20"`
 	// 书籍价格
 	//
 	// example: 88.88
-	Price  float64 `json:"price" binding:"number"`
+	Price  float64 `json:"price" validate:"number"`
 	// 书籍作者
 	//
 	// Maximum length: 12
 	// Minimum length: 6
 	// example: Craig Walls
-	Author string  `json:"author" binding:"min=6,max=12"`
+	Author string  `json:"author" validate:"max=12"`
 }

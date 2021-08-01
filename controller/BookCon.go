@@ -3,18 +3,24 @@ package controller
 import (
 	"bookapi/entity"
 	"bookapi/service"
+	"bookapi/util"
 	"fmt"
 	"github.com/emicklei/go-restful"
+	"github.com/go-playground/validator/v10"
+	"log"
 )
 
 type BookCon struct {
 }
 
 var bookService service.BookService
+//参数校验
+var validate *validator.Validate
 
 func init() {
 	fmt.Println("bookService init")
 	bookService = new(service.BookServiceImpl)
+	validate = validator.New()
 }
 
 // swagger:route GET /books books getbooks
@@ -93,6 +99,14 @@ func (receiver BookCon) AddBook(request *restful.Request, response *restful.Resp
 	err := request.ReadEntity(&bookAO)
 	responseBody := new(entity.Response)
 	if err == nil {
+		// 参数校验
+		err := validate.Struct(bookAO)
+		if err != nil {
+			responseBody.Body.Code = 500
+			responseBody.Body.Msg = "参数异常:"+util.ValidateErrorFormat(err)
+			response.WriteEntity(responseBody.Body)
+			return
+		}
 		book := bookService.AddBook(*bookAO)
 		if book == nil {
 			responseBody.Body.Code = 404
@@ -128,10 +142,19 @@ func (receiver BookCon) AddBook(request *restful.Request, response *restful.Resp
 //
 func (receiver BookCon) UpdateBook(request *restful.Request, response *restful.Response) {
 	id := request.PathParameter("id")
-	var book entity.Book
+	var book entity.BookUO
 	err := request.ReadEntity(&book)
+	log.Println(book)
 	responseBody := new(entity.Response)
 	if err == nil {
+		// 参数校验
+		err := validate.Struct(book)
+		if err != nil {
+			responseBody.Body.Code = 404
+			responseBody.Body.Msg = "参数异常:"+util.ValidateErrorFormat(err)
+			response.WriteEntity(responseBody.Body)
+			return
+		}
 		bookNew := bookService.UpdateBook(id, book)
 		if bookNew == nil {
 			responseBody.Body.Code = 404
