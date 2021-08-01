@@ -39,9 +39,9 @@ func (receiver BookDAOImpl) SelectBookById(id uint) *entity.Book {
 	if result.Error != nil {
 		return nil
 	} else if result.RowsAffected != 0 {
-		return nil
-	} else {
 		return book
+	} else {
+		return nil
 	}
 }
 func (receiver BookDAOImpl) InsertBook(book entity.Book) *entity.Book {
